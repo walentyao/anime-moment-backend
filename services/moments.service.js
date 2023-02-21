@@ -4,7 +4,7 @@ import FilesService from "./files.service.js";
 class MomentsService{
 
     async getAllMoment(){
-        const moments = await Moment.find();
+        const moments = await Moment.find().populate('user');
         return moments;
     }
 
@@ -16,7 +16,7 @@ class MomentsService{
 
     async createMoment(moment, picture){
         const fileName = FilesService.saveFile(picture);
-        const createdMoment = await Moment.create({...moment, imageUrl: fileName});
+        const createdMoment = (await Moment.create({...moment, imageUrl: fileName})).populate('user');
         return createdMoment;
     }
 
